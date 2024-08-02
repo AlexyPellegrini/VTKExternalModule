@@ -291,7 +291,7 @@ if (VTK_KIT_FILEPATH)
 endif ()
 
 vtk_module_scan(
-  MODULE_FILES     "${vtk_module_files}"
+  MODULE_FILES     ${vtk_module_files}
   ${_vtk_module_scan_kit_args}
   REQUEST_MODULES  "VTK::${VTK_MODULE_NAME}"
   PROVIDES_MODULES _modules
