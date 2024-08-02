@@ -49,6 +49,7 @@ endif()
 mark_as_superbuild(
   VARS
     VTK_MODULE_NAME:STRING
+    VTK_ADDITIONAL_MODULES_NAME:STRING
     VTK_MODULE_SOURCE_DIR:PATH
   )
 
@@ -290,10 +291,15 @@ if (VTK_KIT_FILEPATH)
     )
 endif ()
 
+set(all_modules "VTK::${VTK_MODULE_NAME}")
+foreach(module IN LISTS VTK_ADDITIONAL_MODULES_NAME)
+  list(APPEND all_modules "VTK::${module}")
+endforeach()
+
 vtk_module_scan(
   MODULE_FILES     ${vtk_module_files}
   ${_vtk_module_scan_kit_args}
-  REQUEST_MODULES  "VTK::${VTK_MODULE_NAME}"
+  REQUEST_MODULES  ${all_modules}
   PROVIDES_MODULES _modules
   ENABLE_TESTS     "${BUILD_TESTING}")
 
