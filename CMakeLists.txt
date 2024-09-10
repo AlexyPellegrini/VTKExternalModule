@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 3.8...3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 if (NOT VTK_MODULE_SOURCE_DIR)
   message(FATAL_ERROR "Setting VTK_MODULE_SOURCE_DIR is required to lookup the VTK module sources.")
 endif ()
+cmake_path(IS_RELATIVE VTK_MODULE_SOURCE_DIR _source_dir_is_rel)
+if(_source_dir_is_rel)
+  cmake_path(ABSOLUTE_PATH VTK_MODULE_SOURCE_DIR BASE_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
 message(STATUS "Setting VTK_MODULE_SOURCE_DIR to ${VTK_MODULE_SOURCE_DIR}")
 
 if (NOT VTK_MODULE_NAME)
