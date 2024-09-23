@@ -417,7 +417,7 @@ foreach (_vtk_build_module IN LISTS _modules)
     # Considering `_vtk_build_depend` is formatted as `VTK::<ModuleName>`,
     # replace `^VTK::` with `vtk`.
     string(REGEX REPLACE "^VTK\:\:" "vtk" _vtk_build_depend_package ${_vtk_build_depend})
-    if (DEFINED ${_vtk_build_depend_package}_DIR OR ${_vtk_build_depend_package}_ROOT)
+    if (${_vtk_build_depend_package}_DIR OR ${_vtk_build_depend_package}_ROOT)
       list(APPEND _vtk_external_package_depends ${_vtk_build_depend_package})
     endif ()
   endforeach ()
