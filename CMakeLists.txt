@@ -422,6 +422,8 @@ foreach (_vtk_build_module IN LISTS _modules)
     endif ()
   endforeach ()
 endforeach ()
+# When building multiple modules, we may have redundant names (e.g. if A and B both depends on C)
+list(REMOVE_DUPLICATES _vtk_external_package_depends)
 
 # Collect packages searched using vtk_module_find_package()
 get_property(_vtk_module_find_packages GLOBAL
@@ -447,6 +449,12 @@ set(_cmake_destination
     "${CMAKE_INSTALL_LIBDIR}/cmake/vtk")
 set(_cmake_build_dir
     "${CMAKE_CURRENT_BINARY_DIR}/${_cmake_destination}")
+
+set(_available_components) # will be used by vtkmodule-config.cmake.in
+foreach(_module IN LISTS _modules) # strip VTK:: from module name to get component name
+  string(REPLACE "VTK\:\:" "" _component ${_module})
+  list(APPEND _available_components ${_component})
+endforeach()
 
 string(TOLOWER ${PROJECT_NAME} _project_name_lc)
 configure_file(
